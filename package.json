@@ -1,0 +1,8 @@
+{
+  "name": "e-com-root",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd frontened/frontend && npm install && npm run build",
+    "install": "cd frontened/frontend && npm install"
+  }
+}
