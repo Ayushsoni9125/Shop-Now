@@ -4,7 +4,7 @@ import axios from "axios";
 import ProductCard from "../components/ProductCard";
 import Pagination from "../components/Pagination";
 
-const BASE_URL = "http://localhost:3200/api";
+const BASE_URL = "https://shop-now-5has.onrender.com/api";
 const TABS = ["All", "Electronics", "Clothing", "Books", "Home", "Sports", "Beauty"];
 
 const CATEGORIES = [

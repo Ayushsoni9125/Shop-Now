@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3200/api";
+const BASE_URL = "https://shop-now-5has.onrender.com/api";
 
 function CheckoutPage() {
   const [address, setAddress] = useState("");

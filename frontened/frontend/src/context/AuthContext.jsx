@@ -2,7 +2,7 @@ import { createContext, useState, useContext } from "react";
 import axios from "axios";
 import Toast from "../components/Toast";
 
-const BASE_URL = "http://localhost:3200/api";
+const BASE_URL = "https://shop-now-5has.onrender.com/api";
 
 // Create Context
 const AuthContext = createContext();

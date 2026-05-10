@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3200/api";
+const BASE_URL = "https://shop-now-5has.onrender.com/api";
 
 const emptyForm = { name: "", price: "", description: "", image: "", category: "", stock: "" };
 

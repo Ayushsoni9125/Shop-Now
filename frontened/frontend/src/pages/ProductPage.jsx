@@ -5,7 +5,7 @@ import axios from "axios";
 import Loader from "../components/Loader";
 import ProductCard from "../components/ProductCard";
 
-const BASE_URL = "http://localhost:3200/api";
+const BASE_URL = "https://shop-now-5has.onrender.com/api";
 
 function ProductPage() {
   const [product, setProduct] = useState(null);
