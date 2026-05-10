@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import axios from "axios";
 import Loader from "../components/Loader";
+import ProductCard from "../components/ProductCard";
 
 const BASE_URL = "http://localhost:3200/api";
 
@@ -11,25 +12,41 @@ function ProductPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [qty, setQty] = useState(1);
+  
+  // Related products state
+  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [relatedLoading, setRelatedLoading] = useState(false);
 
   const { id } = useParams();
   const navigate = useNavigate();
   const { addToCart } = useCart();
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchProductAndRelated = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(`${BASE_URL}/products/${id}`);
-        setProduct(data);
+        // Fetch current product
+        const { data: productData } = await axios.get(`${BASE_URL}/products/${id}`);
+        setProduct(productData);
+
+        // Fetch related products by category
+        if (productData.category) {
+          setRelatedLoading(true);
+          const { data: relatedData } = await axios.get(`${BASE_URL}/products?category=${encodeURIComponent(productData.category)}&limit=5`);
+          // Filter out the current product from suggestions
+          const filteredRelated = (relatedData.products || []).filter(p => p._id !== id).slice(0, 4);
+          setRelatedProducts(filteredRelated);
+        }
+
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
+        setRelatedLoading(false);
       }
     };
 
-    fetchProduct();
+    fetchProductAndRelated();
   }, [id]);
 
   const addToCartHandler = () => {
@@ -42,7 +59,7 @@ function ProductPage() {
   if (!product) return null;
 
   return (
-    <div className="py-10">
+    <div className="py-10 transition-colors">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Back Button */}
@@ -53,7 +70,7 @@ function ProductPage() {
           ← Back to Products
         </button>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 grid grid-cols-1 md:grid-cols-2 gap-10 transition-colors">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 grid grid-cols-1 md:grid-cols-2 gap-10 transition-colors mb-16">
 
           {/* Product Image */}
           <div className="w-full h-80 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden flex items-center justify-center p-4 border border-gray-100 dark:border-gray-800 transition-colors">
@@ -140,6 +157,28 @@ function ProductPage() {
 
           </div>
         </div>
+
+        {/* Related Products Section */}
+        {relatedProducts.length > 0 && (
+          <div className="mt-16 border-t border-gray-200 dark:border-gray-800 pt-10 transition-colors">
+            <h2 className="text-2xl font-black text-gray-900 dark:text-white mb-8 transition-colors">
+              You Might Also Like
+            </h2>
+            
+            {relatedLoading ? (
+              <div className="flex justify-center py-10">
+                <div className="w-8 h-8 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {relatedProducts.map(related => (
+                  <ProductCard key={related._id} product={related} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
       </div>
     </div>
   );
