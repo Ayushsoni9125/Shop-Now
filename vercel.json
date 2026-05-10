@@ -1,4 +1,5 @@
 {
+  "name": "e-com-store",
   "buildCommand": "npm run build",
   "outputDirectory": "frontened/frontend/dist",
   "rewrites": [
