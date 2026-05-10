@@ -356,6 +356,38 @@ const products = [
     rating: 4.3,
     numReviews: 2750,
   },
+
+  // ── Gaming & Toys ─────────────────────────────────────
+  {
+    name: "Sony PlayStation 5 Console",
+    price: 49990,
+    description: "Experience lightning-fast loading with an ultra-high speed SSD, deeper immersion with haptic feedback.",
+    image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500&h=500&fit=crop",
+    category: "Electronics",
+    stock: 40,
+    rating: 4.8,
+    numReviews: 3200,
+  },
+  {
+    name: "LEGO Star Wars Millennium Falcon",
+    price: 14999,
+    description: "Build the iconic Millennium Falcon featuring rotating gun turrets and spring-loaded shooters.",
+    image: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=500&h=500&fit=crop",
+    category: "Toys",
+    stock: 25,
+    rating: 4.9,
+    numReviews: 1250,
+  },
+  {
+    name: "The North Face Puffer Jacket",
+    price: 8999,
+    description: "Classic down jacket designed for winter warmth and durability.",
+    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=500&h=500&fit=crop",
+    category: "Clothing",
+    stock: 60,
+    rating: 4.6,
+    numReviews: 890,
+  }
 ];
 
 const seed = async () => {
