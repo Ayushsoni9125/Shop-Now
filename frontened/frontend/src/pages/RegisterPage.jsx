@@ -24,17 +24,17 @@ function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
+    <div className="min-h-[calc(100vh-64px)] flex items-center justify-center py-12 px-4 transition-colors">
+      <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 w-full max-w-md transition-colors">
 
         {/* Title */}
-        <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center transition-colors">
           Register
         </h1>
 
         {/* Error Message */}
         {error && (
-          <p className="bg-red-100 text-red-500 p-3 rounded-lg mb-4 text-center">
+          <p className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-center transition-colors">
             {error}
           </p>
         )}
@@ -44,49 +44,49 @@ function RegisterPage() {
 
           {/* Name */}
           <div>
-            <label className="block text-gray-600 mb-1">Name</label>
+            <label className="block text-gray-600 dark:text-gray-400 mb-1 transition-colors">Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter your name"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full px-4 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-colors placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="block text-gray-600 mb-1">Email</label>
+            <label className="block text-gray-600 dark:text-gray-400 mb-1 transition-colors">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full px-4 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-colors placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
 
           {/* Password */}
           <div>
-            <label className="block text-gray-600 mb-1">Password</label>
+            <label className="block text-gray-600 dark:text-gray-400 mb-1 transition-colors">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full px-4 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-colors placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
 
           {/* Confirm Password */}
           <div>
-            <label className="block text-gray-600 mb-1">Confirm Password</label>
+            <label className="block text-gray-600 dark:text-gray-400 mb-1 transition-colors">Confirm Password</label>
             <input
               type="password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm your password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+              className="w-full px-4 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-colors placeholder-gray-400 dark:placeholder-gray-500"
             />
           </div>
 
@@ -94,7 +94,7 @@ function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="bg-yellow-400 text-gray-900 font-semibold py-2 rounded-lg hover:bg-yellow-500 transition-colors duration-200 disabled:opacity-50"
+            className="mt-2 bg-yellow-400 text-gray-900 font-bold py-3 rounded-xl hover:bg-yellow-300 transition-colors duration-200 disabled:opacity-50 shadow-md"
           >
             {loading ? "Registering..." : "Register"}
           </button>
@@ -102,9 +102,9 @@ function RegisterPage() {
         </form>
 
         {/* Login Link */}
-        <p className="text-center text-gray-600 mt-4">
+        <p className="text-center text-gray-600 dark:text-gray-400 mt-6 transition-colors">
           Already have an account?{" "}
-          <Link to="/login" className="text-yellow-500 font-semibold hover:underline">
+          <Link to="/login" className="text-yellow-600 dark:text-yellow-400 font-bold hover:underline transition-colors">
             Login
           </Link>
         </p>

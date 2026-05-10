@@ -18,25 +18,18 @@ function ProductCard({ product, index = 0 }) {
   return (
     <div
       onClick={() => navigate(`/product/${product._id}`)}
-      className="group relative bg-white/4 border border-white/8 rounded-2xl overflow-hidden cursor-pointer
-        hover:border-yellow-400/30 hover:bg-white/7 hover:-translate-y-1 hover:shadow-2xl hover:shadow-yellow-400/8
-        transition-all duration-300"
-      style={{ animationDelay: `${index * 60}ms` }}
+      className="group bg-white dark:bg-[#111827] rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 hover:-translate-y-1"
     >
-      {/* Stock Badge */}
-      {product.stock === 0 && (
-        <div className="absolute top-3 left-3 z-10 bg-red-500/90 backdrop-blur-sm text-white text-xs font-bold px-2.5 py-1 rounded-full">
-          Sold Out
-        </div>
-      )}
-      {product.stock > 0 && product.stock <= 5 && (
-        <div className="absolute top-3 left-3 z-10 bg-orange-500/90 backdrop-blur-sm text-white text-xs font-bold px-2.5 py-1 rounded-full">
-          Only {product.stock} left
-        </div>
-      )}
-
       {/* Image */}
-      <div className="relative h-52 bg-white/5 overflow-hidden flex items-center justify-center">
+      <div className="relative h-52 bg-gray-50 dark:bg-[#0b0f1a] overflow-hidden flex items-center justify-center">
+        {/* Badges */}
+        {product.stock === 0 && (
+          <span className="absolute top-3 left-3 z-10 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">Sold Out</span>
+        )}
+        {product.stock > 0 && product.stock <= 5 && (
+          <span className="absolute top-3 left-3 z-10 bg-orange-400 text-white text-[10px] font-bold px-2 py-1 rounded-full">Only {product.stock} left</span>
+        )}
+
         {imgError ? (
           <div className="text-5xl opacity-20">📦</div>
         ) : (
@@ -44,18 +37,17 @@ function ProductCard({ product, index = 0 }) {
             src={product.image}
             alt={product.name}
             onError={() => setImgError(true)}
-            className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
         )}
-        {/* Hover overlay with quick-add */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3">
+
+        {/* Quick add overlay */}
+        <div className="absolute inset-0 bg-black/30 dark:bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
           {product.stock > 0 && (
             <button
               onClick={handleAddToCart}
               className={`text-xs font-bold px-5 py-2 rounded-xl transition-all duration-200 shadow-lg
-                ${added
-                  ? "bg-green-500 text-white scale-95"
-                  : "bg-yellow-400 text-gray-900 hover:bg-yellow-300 hover:scale-105"}`}
+                ${added ? "bg-green-500 text-white" : "bg-yellow-400 text-gray-900 hover:bg-yellow-300"}`}
             >
               {added ? "✓ Added!" : "Quick Add"}
             </button>
@@ -65,37 +57,26 @@ function ProductCard({ product, index = 0 }) {
 
       {/* Info */}
       <div className="p-4">
-        {/* Category */}
-        <p className="text-yellow-400/80 text-[10px] font-bold uppercase tracking-widest mb-1.5">
+        <p className="text-yellow-600 dark:text-yellow-500 text-[10px] font-bold uppercase tracking-widest mb-1 transition-colors">
           {product.category || "General"}
         </p>
-
-        {/* Name */}
-        <h3 className="text-white font-semibold text-sm leading-snug line-clamp-2 mb-2 group-hover:text-yellow-50 transition-colors">
+        <h3 className="text-gray-800 dark:text-gray-200 font-semibold text-sm leading-snug line-clamp-2 mb-2 group-hover:text-gray-900 dark:group-hover:text-white transition-colors">
           {product.name}
         </h3>
 
-        {/* Rating */}
-        <div className="flex items-center gap-1.5 mb-3">
-          <div className="flex">
-            {[...Array(5)].map((_, i) => (
-              <span key={i} className={`text-xs ${i < Math.round(product.rating || 0) ? "text-yellow-400" : "text-gray-600"}`}>
-                ★
-              </span>
-            ))}
-          </div>
-          <span className="text-gray-500 text-xs">({product.numReviews || 0})</span>
+        {/* Stars */}
+        <div className="flex items-center gap-1 mb-3">
+          {[...Array(5)].map((_, i) => (
+            <span key={i} className={`text-xs ${i < Math.round(product.rating || 0) ? "text-yellow-400" : "text-gray-200 dark:text-gray-700"}`}>★</span>
+          ))}
+          <span className="text-gray-400 dark:text-gray-500 text-xs ml-1">({product.numReviews || 0})</span>
         </div>
 
-        {/* Price + Stock */}
+        {/* Price row */}
         <div className="flex items-center justify-between">
-          <p className="text-white font-black text-lg">
-            ₹{product.price?.toLocaleString()}
-          </p>
-          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full
-            ${product.stock > 0
-              ? "bg-green-500/15 text-green-400 border border-green-500/20"
-              : "bg-red-500/15 text-red-400 border border-red-500/20"}`}>
+          <p className="text-gray-900 dark:text-white font-black text-lg transition-colors">₹{product.price?.toLocaleString()}</p>
+          <span className={`text-[10px] font-semibold px-2 py-1 rounded-full transition-colors
+            ${product.stock > 0 ? "bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400" : "bg-red-50 dark:bg-red-500/10 text-red-500 dark:text-red-400"}`}>
             {product.stock > 0 ? "In Stock" : "Out of Stock"}
           </span>
         </div>

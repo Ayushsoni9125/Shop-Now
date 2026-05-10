@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
@@ -19,9 +18,7 @@ function CheckoutPage() {
   const { userInfo } = useAuth();
   const navigate = useNavigate();
 
-  // Redirect if not logged in
-// ✅ Replace with this
-useEffect(() => {
+  useEffect(() => {
     if (!userInfo) {
       navigate("/login");
     } else if (cartItems.length === 0) {
@@ -65,20 +62,20 @@ useEffect(() => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
-      <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
+    <div className="py-10 min-h-screen">
+      <div className="max-w-7xl mx-auto px-6">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 transition-colors">Checkout</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
           {/* Shipping Form */}
-          <div className="lg:col-span-2 bg-white rounded-xl shadow-md p-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-6">
+          <div className="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 transition-colors">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-6 transition-colors">
               Shipping Address
             </h2>
 
             {error && (
-              <p className="bg-red-100 text-red-500 p-3 rounded-lg mb-4">
+              <p className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 transition-colors">
                 {error}
               </p>
             )}
@@ -86,57 +83,57 @@ useEffect(() => {
             <form onSubmit={placeOrderHandler} className="flex flex-col gap-4">
 
               <div>
-                <label className="block text-gray-600 mb-1">Address</label>
+                <label className="block text-gray-600 dark:text-gray-400 mb-1 transition-colors">Address</label>
                 <input
                   type="text"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   placeholder="Enter your address"
                   required
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  className="w-full px-4 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-colors placeholder-gray-400 dark:placeholder-gray-500"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-600 mb-1">City</label>
+                <label className="block text-gray-600 dark:text-gray-400 mb-1 transition-colors">City</label>
                 <input
                   type="text"
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   placeholder="Enter your city"
                   required
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  className="w-full px-4 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-colors placeholder-gray-400 dark:placeholder-gray-500"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-600 mb-1">Postal Code</label>
+                <label className="block text-gray-600 dark:text-gray-400 mb-1 transition-colors">Postal Code</label>
                 <input
                   type="text"
                   value={postalCode}
                   onChange={(e) => setPostalCode(e.target.value)}
                   placeholder="Enter your postal code"
                   required
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  className="w-full px-4 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-colors placeholder-gray-400 dark:placeholder-gray-500"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-600 mb-1">Country</label>
+                <label className="block text-gray-600 dark:text-gray-400 mb-1 transition-colors">Country</label>
                 <input
                   type="text"
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
                   placeholder="Enter your country"
                   required
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                  className="w-full px-4 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-colors placeholder-gray-400 dark:placeholder-gray-500"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-yellow-400 text-gray-900 font-semibold py-3 rounded-lg hover:bg-yellow-500 transition-colors duration-200 disabled:opacity-50"
+                className="mt-2 bg-yellow-400 text-gray-900 font-bold py-3.5 rounded-xl hover:bg-yellow-300 transition-colors duration-200 disabled:opacity-50 shadow-md"
               >
                 {loading ? "Placing Order..." : "Place Order"}
               </button>
@@ -145,27 +142,27 @@ useEffect(() => {
           </div>
 
           {/* Order Summary */}
-          <div className="bg-white rounded-xl shadow-md p-6 h-fit">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 h-fit transition-colors">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4 transition-colors">
               Order Summary
             </h2>
 
             {cartItems.map((item) => (
-              <div key={item._id} className="flex justify-between mb-2">
-                <span className="text-gray-600">
+              <div key={item._id} className="flex justify-between mb-3 text-sm">
+                <span className="text-gray-600 dark:text-gray-400 transition-colors">
                   {item.name} x {item.qty}
                 </span>
-                <span className="text-gray-800 font-semibold">
+                <span className="text-gray-900 dark:text-white font-semibold transition-colors">
                   ₹{(item.price * item.qty).toLocaleString()}
                 </span>
               </div>
             ))}
 
-            <hr className="my-4" />
+            <hr className="my-4 border-gray-100 dark:border-gray-700 transition-colors" />
 
             <div className="flex justify-between">
-              <span className="text-gray-800 font-bold">Total</span>
-              <span className="text-gray-800 font-bold text-xl">
+              <span className="text-gray-900 dark:text-white font-bold transition-colors">Total</span>
+              <span className="text-gray-900 dark:text-white font-black text-xl transition-colors">
                 ₹{totalPrice.toLocaleString()}
               </span>
             </div>

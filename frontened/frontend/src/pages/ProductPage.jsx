@@ -38,25 +38,25 @@ function ProductPage() {
   };
 
   if (loading) return <Loader />;
-  if (error) return <p className="text-red-500 text-center">{error}</p>;
+  if (error) return <p className="text-red-500 text-center py-20">{error}</p>;
   if (!product) return null;
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10">
-      <div className="container mx-auto px-4">
+    <div className="py-10">
+      <div className="max-w-7xl mx-auto px-6">
 
         {/* Back Button */}
         <button
           onClick={() => navigate("/")}
-          className="mb-6 text-gray-600 hover:text-yellow-500 font-semibold"
+          className="mb-6 text-gray-600 dark:text-gray-400 hover:text-yellow-500 dark:hover:text-yellow-400 font-semibold transition-colors"
         >
           ← Back to Products
         </button>
 
-        <div className="bg-white rounded-xl shadow-md p-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 grid grid-cols-1 md:grid-cols-2 gap-10 transition-colors">
 
           {/* Product Image */}
-          <div className="w-full h-80 overflow-hidden rounded-lg">
+          <div className="w-full h-80 bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden flex items-center justify-center p-4 border border-gray-100 dark:border-gray-800 transition-colors">
             <img
               src={product.image}
               alt={product.name}
@@ -68,60 +68,62 @@ function ProductPage() {
           <div className="flex flex-col gap-4">
 
             {/* Category */}
-            <p className="text-yellow-500 font-semibold uppercase text-sm">
+            <p className="text-yellow-500 font-semibold uppercase text-sm tracking-widest">
               {product.category}
             </p>
 
             {/* Name */}
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white transition-colors">
               {product.name}
             </h1>
 
             {/* Rating */}
             <div className="flex items-center gap-2">
               <span className="text-yellow-400">⭐</span>
-              <span className="text-gray-600">
+              <span className="text-gray-600 dark:text-gray-400 transition-colors">
                 {product.rating} ({product.numReviews} reviews)
               </span>
             </div>
 
             {/* Price */}
-            <p className="text-3xl font-bold text-gray-900">
+            <p className="text-3xl font-black text-gray-900 dark:text-white transition-colors">
               ₹{product.price.toLocaleString()}
             </p>
 
             {/* Description */}
-            <p className="text-gray-600">{product.description}</p>
+            <p className="text-gray-600 dark:text-gray-400 transition-colors leading-relaxed">
+              {product.description}
+            </p>
 
             {/* Stock */}
-            <p className={`font-semibold ${product.stock === 0 ? "text-red-500" : "text-green-500"}`}>
+            <p className={`font-semibold px-3 py-1.5 w-fit rounded-lg ${product.stock === 0 ? "bg-red-50 dark:bg-red-500/10 text-red-500" : "bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400"} transition-colors`}>
               {product.stock === 0 ? "Out of Stock" : `In Stock (${product.stock} left)`}
             </p>
 
             {/* Quantity Selector */}
             {product.stock > 0 && (
-              <div className="flex items-center gap-3">
-                <label className="text-gray-700 font-semibold">Qty:</label>
-                <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+              <div className="flex items-center gap-3 mt-2">
+                <label className="text-gray-700 dark:text-gray-300 font-semibold transition-colors">Qty:</label>
+                <div className="flex items-center border-2 border-gray-200 dark:border-gray-600 rounded-xl overflow-hidden transition-colors">
                   <button
                     type="button"
                     onClick={() => setQty(q => Math.max(1, q - 1))}
-                    className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-yellow-400 hover:text-gray-900 text-gray-600 font-bold text-lg transition-colors"
+                    className="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 hover:bg-yellow-400 dark:hover:bg-yellow-400 hover:text-gray-900 text-gray-600 dark:text-gray-300 font-bold text-lg transition-colors"
                   >
                     −
                   </button>
-                  <span className="w-12 h-10 flex items-center justify-center text-gray-900 font-bold text-base border-x-2 border-gray-200 bg-white">
+                  <span className="w-12 h-10 flex items-center justify-center text-gray-900 dark:text-white font-bold text-base border-x-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 transition-colors">
                     {qty}
                   </span>
                   <button
                     type="button"
                     onClick={() => setQty(q => Math.min(Math.min(product.stock, 10), q + 1))}
-                    className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-yellow-400 hover:text-gray-900 text-gray-600 font-bold text-lg transition-colors"
+                    className="w-10 h-10 flex items-center justify-center bg-gray-100 dark:bg-gray-700 hover:bg-yellow-400 dark:hover:bg-yellow-400 hover:text-gray-900 text-gray-600 dark:text-gray-300 font-bold text-lg transition-colors"
                   >
                     +
                   </button>
                 </div>
-                <span className="text-gray-400 text-sm">
+                <span className="text-gray-400 dark:text-gray-500 text-sm transition-colors">
                   (max {Math.min(product.stock, 10)})
                 </span>
               </div>
@@ -131,7 +133,7 @@ function ProductPage() {
             <button
               onClick={addToCartHandler}
               disabled={product.stock === 0}
-              className="bg-yellow-400 text-gray-900 font-semibold py-3 rounded-lg hover:bg-yellow-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="mt-4 bg-yellow-400 text-gray-900 font-bold py-3.5 rounded-xl hover:bg-yellow-300 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
             >
               {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
             </button>
