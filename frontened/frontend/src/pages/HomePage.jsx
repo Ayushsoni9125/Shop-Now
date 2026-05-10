@@ -70,16 +70,16 @@ export default function HomePage() {
     <div className="min-h-screen bg-[#f8f7f4] dark:bg-[#0b0f1a] transition-colors duration-300">
 
       {/* ── HERO ─────────────────────────────────────────── */}
-      <div className="bg-gradient-to-r from-[#1a1a2e] to-[#16213e] dark:from-[#0d1222] dark:to-[#0f162a] text-white">
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-[#0d1222] dark:to-[#0f162a] text-gray-900 dark:text-white transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div>
-            <span className="inline-block bg-yellow-400/20 text-yellow-400 text-xs font-bold px-3 py-1.5 rounded-full mb-4 uppercase tracking-widest">
+            <span className="inline-block bg-yellow-400/20 dark:bg-yellow-400/10 text-yellow-600 dark:text-yellow-400 text-xs font-bold px-3 py-1.5 rounded-full mb-4 uppercase tracking-widest transition-colors">
               🔥 New Arrivals
             </span>
-            <h1 className="text-5xl lg:text-6xl font-black leading-tight mb-4 text-white">
-              Shop <span className="text-yellow-400">Premium</span><br />Products Online
+            <h1 className="text-5xl lg:text-6xl font-black leading-tight mb-4 text-gray-900 dark:text-white transition-colors">
+              Shop <span className="text-yellow-500 dark:text-yellow-400">Premium</span><br />Products Online
             </h1>
-            <p className="text-gray-300 dark:text-gray-400 text-lg mb-8 max-w-md">
+            <p className="text-gray-600 dark:text-gray-400 text-lg mb-8 max-w-md transition-colors">
               Discover thousands of curated products from top brands with free delivery and easy returns.
             </p>
             {/* Search */}
