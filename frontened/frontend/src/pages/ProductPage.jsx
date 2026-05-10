@@ -101,18 +101,29 @@ function ProductPage() {
             {/* Quantity Selector */}
             {product.stock > 0 && (
               <div className="flex items-center gap-3">
-                <label className="text-gray-600 font-semibold">Qty:</label>
-                <select
-                  value={qty}
-                  onChange={(e) => setQty(Number(e.target.value))}
-                  className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-400"
-                >
-                  {[...Array(Math.min(product.stock, 10))].map((_, i) => (
-                    <option key={i + 1} value={i + 1}>
-                      {i + 1}
-                    </option>
-                  ))}
-                </select>
+                <label className="text-gray-700 font-semibold">Qty:</label>
+                <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden">
+                  <button
+                    type="button"
+                    onClick={() => setQty(q => Math.max(1, q - 1))}
+                    className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-yellow-400 hover:text-gray-900 text-gray-600 font-bold text-lg transition-colors"
+                  >
+                    −
+                  </button>
+                  <span className="w-12 h-10 flex items-center justify-center text-gray-900 font-bold text-base border-x-2 border-gray-200 bg-white">
+                    {qty}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setQty(q => Math.min(Math.min(product.stock, 10), q + 1))}
+                    className="w-10 h-10 flex items-center justify-center bg-gray-100 hover:bg-yellow-400 hover:text-gray-900 text-gray-600 font-bold text-lg transition-colors"
+                  >
+                    +
+                  </button>
+                </div>
+                <span className="text-gray-400 text-sm">
+                  (max {Math.min(product.stock, 10)})
+                </span>
               </div>
             )}
 

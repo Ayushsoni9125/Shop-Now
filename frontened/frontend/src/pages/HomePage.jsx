@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import ProductCard from "../components/ProductCard";
 import Pagination from "../components/Pagination";
@@ -25,8 +25,8 @@ function HomePage() {
   const [keyword, setKeyword] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [searchTrigger, setSearchTrigger] = useState(0);
   const [heroVisible, setHeroVisible] = useState(false);
-  const navigate = useNavigate();
   const productsSectionRef = useRef(null);
 
   useEffect(() => {
@@ -38,13 +38,14 @@ function HomePage() {
       try {
         setLoading(true);
         setError(null);
-        const cat = activeCategory !== "All" ? `&category=${activeCategory}` : "";
+        const cat = activeCategory !== "All" ? `&category=${encodeURIComponent(activeCategory)}` : "";
+        const kw = keyword ? `&keyword=${encodeURIComponent(keyword)}` : "";
         const { data } = await axios.get(
-          `${BASE_URL}/products?page=${page}&limit=8&keyword=${keyword}${cat}`
+          `${BASE_URL}/products?page=${page}&limit=8${kw}${cat}`
         );
-        setProducts(data.products);
-        setTotalPages(data.totalPages);
-        setTotalProducts(data.totalProducts);
+        setProducts(data.products || []);
+        setTotalPages(data.totalPages || 1);
+        setTotalProducts(data.totalProducts || 0);
       } catch (err) {
         setError("Failed to load products. Please try again.");
       } finally {
@@ -52,14 +53,29 @@ function HomePage() {
       }
     };
     fetchProducts();
-  }, [page, keyword, activeCategory]);
+  }, [page, keyword, activeCategory, searchTrigger]);
 
   const handleSearch = (e) => {
-    e.preventDefault();
-    setKeyword(searchInput);
+    if (e && e.preventDefault) e.preventDefault();
+    const trimmed = searchInput.trim();
+    setKeyword(trimmed);
     setPage(1);
     setActiveCategory("All");
-    productsSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setSearchTrigger(t => t + 1);
+    setTimeout(() => {
+      productsSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+  };
+
+  const handleQuickSearch = (term) => {
+    setSearchInput(term);
+    setKeyword(term);
+    setPage(1);
+    setActiveCategory("All");
+    setSearchTrigger(t => t + 1);
+    setTimeout(() => {
+      productsSectionRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   };
 
   const handleCategoryChange = (cat) => {
@@ -67,18 +83,27 @@ function HomePage() {
     setKeyword("");
     setSearchInput("");
     setPage(1);
+    setSearchTrigger(t => t + 1);
   };
 
   return (
     <div className="min-h-screen bg-[#0b0f1a]">
 
       {/* ─── HERO SECTION ─────────────────────────────────────── */}
-      <div className="relative overflow-hidden">
-        {/* Animated background blobs */}
+      <div className="relative overflow-hidden" style={{ minHeight: "580px" }}>
+
+        {/* Full hero background image with dark overlay */}
         <div className="absolute inset-0 pointer-events-none">
+          <img
+            src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=1600&h=700&fit=crop&q=80"
+            alt=""
+            className="w-full h-full object-cover opacity-10"
+          />
+          {/* Dark gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0b0f1a]/80 via-[#0b0f1a]/60 to-[#0b0f1a]" />
+          {/* Animated blobs */}
           <div className="absolute -top-32 -left-32 w-96 h-96 bg-yellow-400/10 rounded-full blur-3xl animate-pulse" />
-          <div className="absolute top-10 right-0 w-80 h-80 bg-purple-500/8 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
-          <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-blue-500/8 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "2s" }} />
+          <div className="absolute top-10 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
           {/* Grid overlay */}
           <div className="absolute inset-0" style={{
             backgroundImage: "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
@@ -86,7 +111,52 @@ function HomePage() {
           }} />
         </div>
 
+        {/* Freely scattered floating product images */}
+        {[
+          // top-left area
+          { src: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop", top: "6%",  left: "3%",  size: 110, rotate: -12, dur: 3.2, delay: "0s"   },
+          // mid-left
+          { src: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop", top: "48%", left: "1%",  size: 90,  rotate: 8,   dur: 4.0, delay: "0.8s" },
+          // bottom-left
+          { src: "https://images.unsplash.com/photo-1593811167562-9cef47bfc4d7?w=300&h=300&fit=crop", top: "76%", left: "7%",  size: 80,  rotate: -6,  dur: 3.6, delay: "1.4s" },
+          // top-center-left
+          { src: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=300&h=300&fit=crop", top: "4%",  left: "22%", size: 75,  rotate: 10,  dur: 4.4, delay: "0.3s" },
+          // top-right area
+          { src: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300&h=300&fit=crop", top: "5%",  right: "3%", size: 120, rotate: 14,  dur: 3.8, delay: "0.5s" },
+          // mid-right
+          { src: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=300&h=300&fit=crop", top: "44%", right: "2%", size: 95,  rotate: -10, dur: 3.4, delay: "1.0s" },
+          // bottom-right
+          { src: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop", top: "72%", right: "6%", size: 85,  rotate: 6,   dur: 4.2, delay: "1.6s" },
+          // top-center-right
+          { src: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=300&h=300&fit=crop", top: "2%",  right: "22%", size: 70, rotate: -8,  dur: 5.0, delay: "0.7s" },
+        ].map((img, i) => (
+          <div
+            key={i}
+            className="absolute pointer-events-none"
+            style={{
+              top: img.top,
+              left: img.left,
+              right: img.right,
+              width: img.size,
+              height: img.size,
+              transform: `rotate(${img.rotate}deg)`,
+              animation: `float ${img.dur}s ease-in-out infinite`,
+              animationDelay: img.delay,
+              zIndex: 1,
+            }}
+          >
+            <img
+              src={img.src}
+              alt=""
+              style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "16px", opacity: 0.30 }}
+              className="shadow-2xl"
+            />
+          </div>
+        ))}
+
+
         <div className={`relative z-10 max-w-5xl mx-auto px-6 py-24 text-center transition-all duration-1000 ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+
 
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-yellow-400/10 border border-yellow-400/20 text-yellow-400 text-xs font-semibold px-4 py-2 rounded-full mb-6 backdrop-blur-sm">
@@ -107,31 +177,35 @@ function HomePage() {
           </p>
 
           {/* Search Bar */}
-          <form onSubmit={handleSearch} className="flex gap-0 max-w-xl mx-auto mb-10 shadow-2xl shadow-yellow-400/10">
+          <div className="flex gap-0 max-w-xl mx-auto mb-10 shadow-2xl shadow-yellow-400/10">
             <div className="flex-1 relative">
               <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-lg">🔍</span>
               <input
                 type="text"
                 value={searchInput}
                 onChange={e => setSearchInput(e.target.value)}
+                onKeyDown={e => e.key === "Enter" && handleSearch(e)}
                 placeholder="Search for phones, shoes, books..."
-                className="w-full bg-white/8 border border-white/15 border-r-0 rounded-l-2xl px-5 py-4 pl-11 text-white placeholder-gray-500 focus:outline-none focus:border-yellow-400/50 focus:bg-white/12 transition-all text-sm backdrop-blur-sm"
+                style={{ color: "#ffffff", caretColor: "#facc15" }}
+                className="w-full bg-white/10 border border-white/20 border-r-0 rounded-l-2xl px-5 py-4 pl-11 placeholder-gray-500 focus:outline-none focus:border-yellow-400/50 focus:bg-white/20 transition-all text-sm backdrop-blur-sm"
               />
             </div>
             <button
-              type="submit"
+              type="button"
+              onClick={handleSearch}
               className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold px-7 py-4 rounded-r-2xl hover:from-yellow-300 hover:to-yellow-400 transition-all whitespace-nowrap text-sm shadow-lg shadow-yellow-400/25"
             >
               Search
             </button>
-          </form>
+          </div>
 
           {/* Quick links */}
           <div className="flex flex-wrap justify-center gap-2">
             {["iPhone 15", "Headphones", "Sneakers", "Watches"].map(term => (
               <button
+                type="button"
                 key={term}
-                onClick={() => { setSearchInput(term); setKeyword(term); setPage(1); setActiveCategory("All"); }}
+                onClick={() => handleQuickSearch(term)}
                 className="text-xs bg-white/5 border border-white/10 text-gray-400 px-3 py-1.5 rounded-full hover:border-yellow-400/40 hover:text-yellow-400 transition-all"
               >
                 {term}
