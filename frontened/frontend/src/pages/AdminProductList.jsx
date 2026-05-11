@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 
@@ -10,6 +10,7 @@ const emptyForm = { name: "", price: "", description: "", image: "", category: "
 function AdminProductList() {
   const { userInfo } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,6 +32,18 @@ function AdminProductList() {
     if (!userInfo?.isAdmin) { navigate("/"); return; }
     fetchProducts();
   }, [userInfo, navigate]);
+
+  // Auto-open Add modal if navigated with ?action=add (e.g. from dashboard)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get("action") === "add") {
+      setEditProduct(null);
+      setForm(emptyForm);
+      setShowModal(true);
+      // Clean up URL without re-navigating
+      navigate("/admin/products", { replace: true });
+    }
+  }, [location.search, navigate]);
 
   const fetchProducts = async () => {
     try {

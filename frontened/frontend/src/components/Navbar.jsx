@@ -74,10 +74,16 @@ function Navbar() {
               </Link>
 
               {userInfo.isAdmin && (
-                <Link to="/admin" className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all
-                  ${location.pathname.startsWith("/admin") ? "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-500/10" : "text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-500/10"}`}>
-                  ⚙️ Admin
-                </Link>
+                <>
+                  <Link to="/admin" className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all
+                    ${location.pathname.startsWith("/admin") ? "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-500/10" : "text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-500/10"}`}>
+                    ⚙️ Admin
+                  </Link>
+                  <Link to="/admin/products?action=add"
+                    className="bg-green-500 hover:bg-green-400 text-white px-4 py-2 rounded-xl text-sm font-bold transition-all shadow-md shadow-green-500/30">
+                    ＋ Add Product
+                  </Link>
+                </>
               )}
 
               <button onClick={logoutHandler}
@@ -139,7 +145,10 @@ function Navbar() {
               </div>
               <Link to="/profile" onClick={() => setMenuOpen(false)} className="text-gray-700 dark:text-gray-300 px-3 py-2.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-sm">👤 My Profile</Link>
               {userInfo.isAdmin && (
-                <Link to="/admin" onClick={() => setMenuOpen(false)} className="text-gray-700 dark:text-gray-300 px-3 py-2.5 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-500/10 hover:text-purple-600 dark:hover:text-purple-400 font-semibold text-sm">⚙️ Admin Panel</Link>
+                <>
+                  <Link to="/admin" onClick={() => setMenuOpen(false)} className="text-gray-700 dark:text-gray-300 px-3 py-2.5 rounded-xl hover:bg-purple-50 dark:hover:bg-purple-500/10 hover:text-purple-600 dark:hover:text-purple-400 font-semibold text-sm">⚙️ Admin Panel</Link>
+                  <Link to="/admin/products?action=add" onClick={() => setMenuOpen(false)} className="bg-green-500 text-white px-3 py-2.5 rounded-xl font-bold text-sm text-center hover:bg-green-400 transition-all">＋ Add Product</Link>
+                </>
               )}
               <button onClick={logoutHandler} className="text-left text-red-500 px-3 py-2.5 rounded-xl hover:bg-red-50 dark:hover:bg-red-500/10 font-semibold text-sm">🚪 Logout</button>
             </>

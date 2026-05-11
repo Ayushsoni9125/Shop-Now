@@ -143,7 +143,24 @@ function AdminDashboard() {
             </div>
 
             {/* Quick Actions */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+              {/* Add Product — primary CTA */}
+              <Link
+                to="/admin/products?action=add"
+                className="bg-white dark:bg-gray-800 border-2 border-dashed border-green-300 dark:border-green-500/40 shadow-sm rounded-2xl p-6 hover:border-green-500 dark:hover:border-green-400 hover:bg-green-50/40 dark:hover:bg-green-500/5 transition-all duration-200 group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="w-14 h-14 bg-green-50 dark:bg-green-500/10 rounded-2xl flex items-center justify-center text-2xl group-hover:bg-green-100 dark:group-hover:bg-green-500/20 transition-all">
+                    ➕
+                  </div>
+                  <div>
+                    <h3 className="text-gray-900 dark:text-white font-bold text-lg group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">Add New Product</h3>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm transition-colors">Create a brand-new listing</p>
+                    <p className="text-green-600 dark:text-green-400 font-semibold text-xs mt-1 transition-colors">Open product form →</p>
+                  </div>
+                </div>
+              </Link>
+
               <Link
                 to="/admin/products"
                 className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm rounded-2xl p-6 hover:border-yellow-400 dark:hover:border-yellow-500/50 transition-all duration-200 group"
@@ -154,7 +171,7 @@ function AdminDashboard() {
                   </div>
                   <div>
                     <h3 className="text-gray-900 dark:text-white font-bold text-lg group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">Product Management</h3>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm transition-colors">Add, edit, and delete products</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm transition-colors">Edit and delete products</p>
                     <p className="text-yellow-600 dark:text-yellow-400 font-semibold text-xs mt-1 transition-colors">{stats.totalProducts} products total →</p>
                   </div>
                 </div>
