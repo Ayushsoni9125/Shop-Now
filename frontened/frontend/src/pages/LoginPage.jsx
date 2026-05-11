@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -8,6 +8,16 @@ function LoginPage() {
 
   const { login, loading, error } = useAuth();
   const navigate = useNavigate();
+  const [redirecting, setRedirecting] = useState(false);
+
+  // Auto-redirect to register if user not found
+  useEffect(() => {
+    if (error === "No User Found") {
+      setRedirecting(true);
+      const timer = setTimeout(() => navigate("/register"), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [error, navigate]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -27,11 +37,19 @@ function LoginPage() {
           Login
         </h1>
 
-        {/* Error Message */}
+        {/* Error / Redirect Banner */}
         {error && (
-          <p className="bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 p-3 rounded-lg mb-4 text-center transition-colors">
-            {error}
-          </p>
+          <div className={`p-3 rounded-lg mb-4 text-center text-sm font-medium transition-all ${
+            redirecting
+              ? "bg-yellow-50 dark:bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-500/30"
+              : "bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400"
+          }`}>
+            {redirecting ? (
+              <span>⚠️ {error} — redirecting you to <strong>Register</strong>...</span>
+            ) : (
+              <span>{error}</span>
+            )}
+          </div>
         )}
 
         {/* Form */}
