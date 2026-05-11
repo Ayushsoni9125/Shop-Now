@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
@@ -6,6 +6,28 @@ import axios from "axios";
 const BASE_URL = "https://shop-now-5has.onrender.com/api";
 
 const emptyForm = { name: "", price: "", description: "", image: "", category: "", stock: "" };
+
+// Compress an image File to a base64 JPEG (max 800px wide, 80% quality)
+const compressImage = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        const MAX = 800;
+        const ratio = Math.min(1, MAX / img.width);
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(img.width * ratio);
+        canvas.height = Math.round(img.height * ratio);
+        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", 0.8));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
 
 function AdminProductList() {
   const { userInfo } = useAuth();
@@ -22,6 +44,11 @@ function AdminProductList() {
   const [showModal, setShowModal] = useState(false);
   const [editProduct, setEditProduct] = useState(null); // null = add mode
   const [form, setForm] = useState(emptyForm);
+
+  // Drag-and-drop state
+  const [dragOver, setDragOver] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
+  const fileInputRef = useRef(null);
 
   // Delete confirm
   const [deleteId, setDeleteId] = useState(null);
@@ -86,7 +113,24 @@ function AdminProductList() {
     setEditProduct(null);
     setForm(emptyForm);
     setError(null);
+    setDragOver(false);
   };
+
+  const handleImageFile = useCallback(async (file) => {
+    if (!file || !file.type.startsWith("image/")) {
+      setError("Please drop a valid image file.");
+      return;
+    }
+    try {
+      setImageUploading(true);
+      const base64 = await compressImage(file);
+      setForm(f => ({ ...f, image: base64 }));
+    } catch {
+      setError("Failed to process image. Please try again.");
+    } finally {
+      setImageUploading(false);
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -257,11 +301,10 @@ function AdminProductList() {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-h-[70vh] overflow-y-auto pr-1">
               {[
                 { id: "name", label: "Product Name", type: "text", placeholder: "e.g. Wireless Headphones" },
                 { id: "price", label: "Price (₹)", type: "number", placeholder: "e.g. 1999" },
-                { id: "image", label: "Image URL", type: "url", placeholder: "https://..." },
                 { id: "category", label: "Category", type: "text", placeholder: "e.g. Electronics" },
                 { id: "stock", label: "Stock Quantity", type: "number", placeholder: "e.g. 50" },
               ].map(field => (
@@ -279,6 +322,82 @@ function AdminProductList() {
                   />
                 </div>
               ))}
+
+              {/* Drag-and-drop image uploader */}
+              <div>
+                <label className="text-gray-600 dark:text-gray-400 text-xs font-semibold mb-1.5 block transition-colors">Product Image</label>
+
+                {form.image ? (
+                  /* Preview */
+                  <div className="relative group rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900">
+                    <img
+                      src={form.image}
+                      alt="Preview"
+                      className="w-full h-40 object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => fileInputRef.current?.click()}
+                        className="bg-white text-gray-900 text-xs font-bold px-4 py-2 rounded-lg hover:bg-yellow-400 transition-all"
+                      >
+                        🔄 Replace
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setForm(f => ({ ...f, image: "" }))}
+                        className="bg-red-500 text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-red-600 transition-all"
+                      >
+                        🗑️ Remove
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  /* Drop zone */
+                  <div
+                    onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+                    onDragLeave={() => setDragOver(false)}
+                    onDrop={e => {
+                      e.preventDefault();
+                      setDragOver(false);
+                      const file = e.dataTransfer.files?.[0];
+                      if (file) handleImageFile(file);
+                    }}
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`flex flex-col items-center justify-center gap-2 border-2 border-dashed rounded-xl h-36 cursor-pointer transition-all
+                      ${ dragOver
+                          ? "border-yellow-400 bg-yellow-50 dark:bg-yellow-400/10 scale-[1.01]"
+                          : "border-gray-300 dark:border-gray-600 hover:border-yellow-400 dark:hover:border-yellow-400/70 bg-gray-50 dark:bg-gray-900 hover:bg-yellow-50/40 dark:hover:bg-yellow-400/5"
+                      }`}
+                  >
+                    {imageUploading ? (
+                      <div className="w-8 h-8 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <>
+                        <div className="text-3xl">{dragOver ? "📂" : "🖼️"}</div>
+                        <p className="text-gray-500 dark:text-gray-400 text-xs text-center leading-relaxed">
+                          <span className="font-semibold text-yellow-600 dark:text-yellow-400">Drag &amp; drop</span> an image here<br/>
+                          or <span className="font-semibold text-yellow-600 dark:text-yellow-400">click to browse</span>
+                        </p>
+                        <p className="text-gray-400 dark:text-gray-600 text-[10px]">PNG, JPG, WEBP — auto-compressed</p>
+                      </>
+                    )}
+                  </div>
+                )}
+
+                {/* Hidden file input */}
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={e => {
+                    const file = e.target.files?.[0];
+                    if (file) handleImageFile(file);
+                    e.target.value = "";
+                  }}
+                />
+              </div>
               <div>
                 <label className="text-gray-600 dark:text-gray-400 text-xs font-semibold mb-1.5 block transition-colors">Description</label>
                 <textarea
