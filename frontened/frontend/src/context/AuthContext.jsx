@@ -38,8 +38,18 @@ export function AuthProvider({ children }) {
       showToast("Logged in successfully!");
       return true;
     } catch (err) {
-      setError(err.response?.data?.message || "Login failed");
-      showToast(err.response?.data?.message || "Login failed", "error");
+      const status = err.response?.status;
+      const message = err.response?.data?.message || "Login failed";
+
+      if (status === 404) {
+        // User does not exist — show a warning toast and signal the page to redirect
+        setError(message);
+        showToast("⚠️ No account found! Redirecting to Register…", "error");
+        return "USER_NOT_FOUND";
+      }
+
+      setError(message);
+      showToast(message, "error");
       return false;
     } finally {
       setLoading(false);

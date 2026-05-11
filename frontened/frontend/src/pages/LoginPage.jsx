@@ -12,7 +12,7 @@ function LoginPage() {
 
   // Auto-redirect to register if user not found
   useEffect(() => {
-    if (error === "No User Found") {
+    if (error && error.includes("No user found")) {
       setRedirecting(true);
       const timer = setTimeout(() => navigate("/register"), 1500);
       return () => clearTimeout(timer);
@@ -23,8 +23,11 @@ function LoginPage() {
     e.preventDefault();
     const success = await login(email, password);
     console.log("success:", success);
-    if (success) {
+    if (success === true) {
       window.location.href = "/";
+    } else if (success === "USER_NOT_FOUND") {
+      setRedirecting(true);
+      setTimeout(() => navigate("/register"), 1500);
     }
   };
 
