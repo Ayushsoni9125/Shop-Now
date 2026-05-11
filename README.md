@@ -2,7 +2,7 @@
 
 A production-ready, full-stack e-commerce application built with the **MERN** stack (MongoDB, Express, React, Node.js), deployed on **Render** (backend) and **Vercel** (frontend).
 
-> **Live Demo:** [frontend-liart-phi-53.vercel.app](https://frontend-liart-phi-53.vercel.app) &nbsp;|&nbsp; **Backend API:** [shop-now-5has.onrender.com/api](https://shop-now-5has.onrender.com/api/products)
+> **Live Demo:** [frontend-liart-phi-53.vercel.app](https://frontend-liart-phi-53.vercel.app) &nbsp;|&nbsp; **Backend API:** [shop-now-5has.onrender.com/api](https://shop-now-5has.onrender.com/)
 
 ---
 
@@ -271,6 +271,3 @@ Pull requests are welcome! For major changes, please open an issue first.
 
 ---
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
