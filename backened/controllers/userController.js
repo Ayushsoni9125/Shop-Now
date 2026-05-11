@@ -11,7 +11,7 @@ const generateToken = (id) => {
 // @route   POST /api/users/register
 const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, isAdmin } = req.body;
 
     // Check if user already exists
     const userExists = await User.findOne({ email });
@@ -28,6 +28,7 @@ const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      isAdmin: isAdmin || false,
     });
 
     res.status(201).json({

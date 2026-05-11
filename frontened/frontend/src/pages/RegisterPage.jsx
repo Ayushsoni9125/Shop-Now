@@ -7,6 +7,7 @@ function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const { register, loading, error } = useAuth();
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ function RegisterPage() {
       alert("Passwords do not match");
       return;
     }
-    const success = await register(name, email, password);
+    const success = await register(name, email, password, isAdmin);
     if (success) {
       window.location.href = "/";
     }
@@ -88,6 +89,33 @@ function RegisterPage() {
               placeholder="Confirm your password"
               className="w-full px-4 py-2 border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 transition-colors placeholder-gray-400 dark:placeholder-gray-500"
             />
+          </div>
+
+          {/* Account Type Toggle */}
+          <div>
+            <label className="block text-gray-600 dark:text-gray-400 mb-2 transition-colors">Account Type</label>
+            <div className="flex gap-4">
+              <label className="flex items-center gap-2 cursor-pointer text-gray-700 dark:text-gray-300">
+                <input
+                  type="radio"
+                  name="accountType"
+                  checked={!isAdmin}
+                  onChange={() => setIsAdmin(false)}
+                  className="accent-yellow-500 w-4 h-4"
+                />
+                Regular User
+              </label>
+              <label className="flex items-center gap-2 cursor-pointer text-gray-700 dark:text-gray-300">
+                <input
+                  type="radio"
+                  name="accountType"
+                  checked={isAdmin}
+                  onChange={() => setIsAdmin(true)}
+                  className="accent-yellow-500 w-4 h-4"
+                />
+                Admin
+              </label>
+            </div>
           </div>
 
           {/* Submit Button */}

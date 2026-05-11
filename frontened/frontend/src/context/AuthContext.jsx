@@ -47,7 +47,7 @@ export function AuthProvider({ children }) {
   };
 
   // Register
-  const register = async (name, email, password) => {
+  const register = async (name, email, password, isAdmin) => {
     try {
       setLoading(true);
       setError(null);
@@ -55,6 +55,7 @@ export function AuthProvider({ children }) {
         name,
         email,
         password,
+        isAdmin,
       });
       setUserInfo(data);
       localStorage.setItem("userInfo", JSON.stringify(data));
