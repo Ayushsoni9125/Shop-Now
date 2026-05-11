@@ -2,7 +2,7 @@
 
 A production-ready, full-stack e-commerce application built with the **MERN** stack (MongoDB, Express, React, Node.js), deployed on **Render** (backend) and **Vercel** (frontend).
 
-> **Live Demo:** [shop-now.vercel.app](https://shop-now-five-mu.vercel.app) &nbsp;|&nbsp; **Backend API:** [shop-now-5has.onrender.com](https://shop-now-5has.onrender.com/api/products)
+> **Live Demo:** [frontend-liart-phi-53.vercel.app](https://frontend-liart-phi-53.vercel.app) &nbsp;|&nbsp; **Backend API:** [shop-now-5has.onrender.com/api](https://shop-now-5has.onrender.com/api/products)
 
 ---
 
