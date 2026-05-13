@@ -13,6 +13,10 @@ function CheckoutPage() {
   const [country, setCountry] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [promoCode, setPromoCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [isNewUser, setIsNewUser] = useState(false);
+  const [promoApplied, setPromoApplied] = useState(false);
 
   const { cartItems, totalPrice, clearCart } = useCart();
   const { userInfo } = useAuth();
@@ -24,7 +28,46 @@ function CheckoutPage() {
     } else if (cartItems.length === 0) {
       navigate("/cart");
     }
+
+    const checkNewUser = async () => {
+      try {
+        const { data } = await axios.get(`${BASE_URL}/orders/myorders`, {
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`,
+          },
+        });
+        setIsNewUser(data.length === 0);
+      } catch (err) {
+        console.error("Error checking new user status:", err);
+      }
+    };
+
+    if (userInfo) {
+      checkNewUser();
+    }
   }, [userInfo, cartItems, navigate]);
+
+  const applyPromoCode = () => {
+    if (promoCode === "FIRST20") {
+      if (isNewUser) {
+        setDiscount(totalPrice * 0.2);
+        setPromoApplied(true);
+        setError(null);
+      } else {
+        setError("FIRST20 is only for first-time orders");
+        setDiscount(0);
+        setPromoApplied(false);
+      }
+    } else if (promoCode === "") {
+        setDiscount(0);
+        setPromoApplied(false);
+        setError(null);
+    } else {
+      setError("Invalid promo code");
+      setDiscount(0);
+      setPromoApplied(false);
+    }
+  };
 
   const placeOrderHandler = async (e) => {
     e.preventDefault();
@@ -44,6 +87,7 @@ function CheckoutPage() {
           })),
           shippingAddress: { address, city, postalCode, country },
           totalPrice,
+          promoCode: promoApplied ? promoCode : "",
         },
         {
           headers: {
@@ -160,10 +204,45 @@ function CheckoutPage() {
 
             <hr className="my-4 border-gray-100 dark:border-gray-700 transition-colors" />
 
-            <div className="flex justify-between">
+            {/* Promo Code Section */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Promo Code
+              </label>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value.toUpperCase())}
+                  placeholder="FIRST20"
+                  className="flex-1 px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                />
+                <button
+                  type="button"
+                  onClick={applyPromoCode}
+                  className="px-4 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-bold rounded-lg hover:opacity-90 transition-opacity"
+                >
+                  Apply
+                </button>
+              </div>
+              {promoApplied && (
+                <p className="mt-2 text-xs text-green-600 dark:text-green-400 font-medium">
+                  Code applied! 20% discount saved.
+                </p>
+              )}
+            </div>
+
+            {discount > 0 && (
+              <div className="flex justify-between mb-2 text-sm text-green-600 dark:text-green-400 font-medium">
+                <span>Discount (20%)</span>
+                <span>-₹{discount.toLocaleString()}</span>
+              </div>
+            )}
+
+            <div className="flex justify-between mt-4">
               <span className="text-gray-900 dark:text-white font-bold transition-colors">Total</span>
               <span className="text-gray-900 dark:text-white font-black text-xl transition-colors">
-                ₹{totalPrice.toLocaleString()}
+                ₹{(totalPrice - discount).toLocaleString()}
               </span>
             </div>
           </div>

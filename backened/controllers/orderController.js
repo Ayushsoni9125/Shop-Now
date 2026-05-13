@@ -4,17 +4,30 @@ import Order from "../models/orderModel.js";
 // @route   POST /api/orders
 const createOrder = async (req, res) => {
   try {
-    const { orderItems, shippingAddress, totalPrice } = req.body;
+    const { orderItems, shippingAddress, totalPrice, promoCode } = req.body;
 
     if (orderItems && orderItems.length === 0) {
       return res.status(400).json({ message: "No order items" });
+    }
+
+    let finalTotalPrice = totalPrice;
+    let discount = 0;
+
+    if (promoCode === "FIRST20") {
+      const orderCount = await Order.countDocuments({ user: req.user._id });
+      if (orderCount === 0) {
+        discount = totalPrice * 0.2;
+        finalTotalPrice = totalPrice - discount;
+      }
     }
 
     const order = await Order.create({
       user: req.user._id,
       orderItems,
       shippingAddress,
-      totalPrice,
+      totalPrice: finalTotalPrice,
+      discount,
+      promoCode: promoCode || "",
     });
 
     res.status(201).json(order);
