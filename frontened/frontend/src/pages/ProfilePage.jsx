@@ -134,7 +134,7 @@ function ProfilePage() {
                 <p className="text-gray-500 dark:text-gray-400 mb-6 transition-colors">You haven't placed any orders yet.</p>
                 <Link
                   to="/"
-                  className="bg-yellow-400 text-gray-900 font-bold px-6 py-3 rounded-xl hover:bg-yellow-300 transition-all inline-block shadow-sm"
+                  className="bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-bold px-6 py-3 rounded-xl transition-all inline-block shadow-sm"
                 >
                   🛍️ Start Shopping
                 </Link>

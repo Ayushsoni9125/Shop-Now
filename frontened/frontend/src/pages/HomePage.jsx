@@ -92,14 +92,14 @@ export default function HomePage() {
                 placeholder="Search for products..."
                 className="flex-1 px-5 py-3.5 rounded-l-xl text-sm bg-white dark:bg-gray-800 focus:outline-none placeholder-gray-400 text-gray-900 dark:text-white border border-transparent dark:border-gray-700 focus:border-yellow-400 dark:focus:border-yellow-400 transition-colors"
               />
-              <button onClick={handleSearch} className="bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold px-6 py-3.5 rounded-r-xl transition-all text-sm">
+              <button onClick={handleSearch} className="bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-bold px-6 py-3.5 rounded-r-xl transition-all text-sm">
                 Search
               </button>
             </div>
             <div className="flex gap-3 mt-4 flex-wrap">
               {["iPhone 15", "Sneakers", "Headphones", "Books"].map(t => (
                 <button key={t} type="button" onClick={() => { setSearchInput(t); setKeyword(t); setPage(1); setActiveTab("All"); setSearchTrigger(n=>n+1); }}
-                  className="text-xs bg-white/10 border border-white/20 text-gray-300 px-3 py-1.5 rounded-full hover:bg-yellow-400/20 hover:text-yellow-400 hover:border-yellow-400/40 transition-all">
+                  className="text-xs bg-gray-100 dark:bg-white/10 border border-gray-200 dark:border-white/20 text-gray-600 dark:text-gray-300 px-3 py-1.5 rounded-full hover:bg-yellow-400/20 hover:text-yellow-600 dark:hover:text-yellow-400 hover:border-yellow-500/40 dark:hover:border-yellow-400/40 transition-all">
                   {t}
                 </button>
               ))}
@@ -194,10 +194,10 @@ export default function HomePage() {
         </div>
 
         {/* Category Tabs */}
-        <div className="flex gap-2 flex-wrap mb-8 border-b border-gray-200 dark:border-gray-800 pb-4 transition-colors">
+        <div className="flex gap-2 overflow-x-auto flex-nowrap mb-8 border-b border-gray-200 dark:border-gray-800 pb-4 transition-colors whitespace-nowrap [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TABS.map(tab => (
             <button key={tab} onClick={() => handleTab(tab)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 shrink-0
                 ${activeTab === tab
                   ? "bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 shadow-md"
                   : "bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-white"}`}>
@@ -208,7 +208,7 @@ export default function HomePage() {
 
         {/* Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {[...Array(8)].map((_,i) => (
               <div key={i} className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden animate-pulse shadow-sm border border-gray-100 dark:border-gray-700">
                 <div className="h-52 bg-gray-100 dark:bg-gray-700" />
@@ -236,7 +236,7 @@ export default function HomePage() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {products.map((p, i) => <ProductCard key={p._id} product={p} index={i} />)}
             </div>
             <div className="mt-10">
@@ -274,7 +274,7 @@ export default function HomePage() {
             Use code <span className="text-yellow-400 font-bold">FIRST20</span> at checkout.
           </p>
           <Link to="/register"
-            className="inline-block bg-yellow-400 text-gray-900 font-black px-8 py-3.5 rounded-xl hover:bg-yellow-300 transition-all shadow-xl text-sm">
+            className="inline-block bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-black px-8 py-3.5 rounded-xl transition-all shadow-xl text-sm">
             Create Free Account →
           </Link>
         </div>

@@ -48,7 +48,7 @@ function OrderPage() {
           <div className="text-6xl mb-4">❌</div>
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2 transition-colors">Error</h2>
           <p className="text-red-500 mb-6 transition-colors">{error}</p>
-          <Link to="/" className="bg-yellow-400 text-gray-900 font-bold px-6 py-3 rounded-xl hover:bg-yellow-300 transition-all shadow-md">
+          <Link to="/" className="bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-bold px-6 py-3 rounded-xl transition-all shadow-md">
             Back to Home
           </Link>
         </div>
@@ -174,7 +174,7 @@ function OrderPage() {
         <div className="flex gap-4 mt-6 flex-wrap">
           <Link
             to="/"
-            className="flex-1 text-center bg-yellow-400 text-gray-900 font-bold py-3.5 rounded-xl hover:bg-yellow-300 transition-all duration-200 shadow-md"
+            className="flex-1 text-center bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-bold py-3.5 rounded-xl transition-all duration-200 shadow-md"
           >
             🛍️ Continue Shopping
           </Link>

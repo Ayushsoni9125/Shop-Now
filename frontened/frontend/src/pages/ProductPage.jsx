@@ -150,7 +150,7 @@ function ProductPage() {
             <button
               onClick={addToCartHandler}
               disabled={product.stock === 0}
-              className="mt-4 bg-yellow-400 text-gray-900 font-bold py-3.5 rounded-xl hover:bg-yellow-300 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
+              className="mt-4 bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-bold py-3.5 rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md"
             >
               {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
             </button>
@@ -170,7 +170,7 @@ function ProductPage() {
                 <div className="w-8 h-8 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                 {relatedProducts.map(related => (
                   <ProductCard key={related._id} product={related} />
                 ))}

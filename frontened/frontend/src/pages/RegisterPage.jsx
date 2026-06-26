@@ -122,7 +122,7 @@ function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="mt-2 bg-yellow-400 text-gray-900 font-bold py-3 rounded-xl hover:bg-yellow-300 transition-colors duration-200 disabled:opacity-50 shadow-md"
+            className="mt-2 bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-bold py-3 rounded-xl transition-all duration-200 disabled:opacity-50 shadow-md"
           >
             {loading ? "Registering..." : "Register"}
           </button>

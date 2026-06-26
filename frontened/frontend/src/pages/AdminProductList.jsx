@@ -185,7 +185,7 @@ function AdminProductList() {
           </div>
           <button
             onClick={openAdd}
-            className="bg-yellow-400 text-gray-900 font-bold px-5 py-2.5 rounded-xl hover:bg-yellow-300 transition-all shadow-md whitespace-nowrap"
+            className="bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-bold px-5 py-2.5 rounded-xl transition-all shadow-md whitespace-nowrap"
           >
             ＋ Add Product
           </button>
@@ -213,7 +213,7 @@ function AdminProductList() {
             <div className="text-5xl mb-4">📭</div>
             <p className="text-gray-900 dark:text-white font-bold text-xl mb-2 transition-colors">No Products Found</p>
             <p className="text-gray-500 dark:text-gray-400 mb-6 transition-colors">Start by adding your first product.</p>
-            <button onClick={openAdd} className="bg-yellow-400 text-gray-900 font-bold px-6 py-3 rounded-xl hover:bg-yellow-300 transition-all shadow-md">
+            <button onClick={openAdd} className="bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-bold px-6 py-3 rounded-xl transition-all shadow-md">
               ＋ Add First Product
             </button>
           </div>
@@ -339,7 +339,7 @@ function AdminProductList() {
                       <button
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
-                        className="bg-white text-gray-900 text-xs font-bold px-4 py-2 rounded-lg hover:bg-yellow-400 transition-all"
+                        className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-yellow-400 dark:hover:bg-yellow-400 hover:text-gray-900 dark:hover:text-gray-900 transition-all"
                       >
                         🔄 Replace
                       </button>
@@ -419,7 +419,7 @@ function AdminProductList() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex-1 bg-yellow-400 text-gray-900 font-bold py-2.5 rounded-xl hover:bg-yellow-300 transition-all disabled:opacity-60 shadow-md"
+                  className="flex-1 bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-bold py-2.5 rounded-xl transition-all disabled:opacity-60 shadow-md"
                 >
                   {saving ? "Saving..." : editProduct ? "Update Product" : "Create Product"}
                 </button>

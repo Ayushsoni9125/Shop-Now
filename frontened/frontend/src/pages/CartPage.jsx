@@ -18,7 +18,7 @@ function CartPage() {
             <p className="text-gray-500 dark:text-gray-400 text-xl mb-4 transition-colors">Your cart is empty</p>
             <button
               onClick={() => navigate("/")}
-              className="bg-yellow-400 text-gray-900 font-bold px-6 py-3 rounded-xl hover:bg-yellow-300 transition-colors shadow-sm"
+              className="bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-bold px-6 py-3 rounded-xl transition-all shadow-sm"
             >
               Continue Shopping
             </button>
@@ -89,7 +89,7 @@ function CartPage() {
 
               <button
                 onClick={() => navigate("/checkout")}
-                className="w-full bg-yellow-400 text-gray-900 font-bold py-3.5 rounded-xl hover:bg-yellow-300 transition-colors shadow-md"
+                className="w-full bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300 font-bold py-3.5 rounded-xl transition-all shadow-md"
               >
                 Proceed to Checkout
               </button>

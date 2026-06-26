@@ -133,7 +133,7 @@ function AdminOrderList() {
                 onClick={() => setFilterStatus(f.id)}
                 className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all
                   ${filterStatus === f.id
-                    ? "bg-yellow-400 dark:bg-yellow-400 text-gray-900 shadow-md"
+                    ? "bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 shadow-md"
                     : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-gray-700"}`}
               >
                 {f.label}

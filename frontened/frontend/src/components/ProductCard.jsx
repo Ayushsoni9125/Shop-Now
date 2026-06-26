@@ -21,7 +21,7 @@ function ProductCard({ product, index = 0 }) {
       className="group bg-white dark:bg-[#111827] rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700 hover:-translate-y-1"
     >
       {/* Image */}
-      <div className="relative h-52 bg-gray-50 dark:bg-[#0b0f1a] overflow-hidden flex items-center justify-center">
+      <div className="relative h-40 sm:h-52 bg-gray-50 dark:bg-[#0b0f1a] overflow-hidden flex items-center justify-center">
         {/* Badges */}
         {product.stock === 0 && (
           <span className="absolute top-3 left-3 z-10 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">Sold Out</span>
@@ -47,7 +47,7 @@ function ProductCard({ product, index = 0 }) {
             <button
               onClick={handleAddToCart}
               className={`text-xs font-bold px-5 py-2 rounded-xl transition-all duration-200 shadow-lg
-                ${added ? "bg-green-500 text-white" : "bg-yellow-400 text-gray-900 hover:bg-yellow-300"}`}
+                ${added ? "bg-green-500 text-white" : "bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-yellow-300"}`}
             >
               {added ? "✓ Added!" : "Quick Add"}
             </button>

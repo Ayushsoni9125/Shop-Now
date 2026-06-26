@@ -97,7 +97,7 @@ function Navbar() {
                 Login
               </Link>
               <Link to="/register"
-                className="bg-yellow-400 text-gray-900 px-5 py-2 rounded-xl text-sm font-bold hover:bg-yellow-300 transition-all shadow-md shadow-yellow-400/30">
+                className="bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 px-5 py-2 rounded-xl text-sm font-bold hover:bg-gray-800 dark:hover:bg-yellow-300 transition-all shadow-md shadow-yellow-400/30">
                 Get Started
               </Link>
             </>
@@ -155,7 +155,7 @@ function Navbar() {
           ) : (
             <>
               <Link to="/login" onClick={() => setMenuOpen(false)} className="text-gray-700 dark:text-gray-300 px-3 py-2.5 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 font-semibold text-sm">Login</Link>
-              <Link to="/register" onClick={() => setMenuOpen(false)} className="bg-yellow-400 text-gray-900 px-3 py-2.5 rounded-xl font-bold text-sm text-center">Get Started</Link>
+              <Link to="/register" onClick={() => setMenuOpen(false)} className="bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 px-3 py-2.5 rounded-xl font-bold text-sm text-center">Get Started</Link>
             </>
           )}
         </div>

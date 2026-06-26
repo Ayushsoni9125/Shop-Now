@@ -177,7 +177,7 @@ function CheckoutPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-2 bg-yellow-400 text-gray-900 font-bold py-3.5 rounded-xl hover:bg-yellow-300 transition-colors duration-200 disabled:opacity-50 shadow-md"
+                className="mt-2 bg-gray-900 dark:bg-yellow-400 text-white dark:text-gray-900 font-bold py-3.5 rounded-xl hover:bg-gray-800 dark:hover:bg-yellow-300 transition-all duration-200 disabled:opacity-50 shadow-md"
               >
                 {loading ? "Placing Order..." : "Place Order"}
               </button>
